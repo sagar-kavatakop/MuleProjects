@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="929698b8-eb8c-49e2-951f-121c1df81954" >
+		<http:listener-connection host="${secure::http.host}" port="${http.port}" />
+	</http:listener-config>
+	<configuration-properties doc:name="Configuration properties" doc:id="99593526-8513-4580-b9f2-3bb7c3a954f6" file="dev.properties" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="c8a99e94-9cb1-493c-a1aa-4b6b7032a81a" file="dev.properties" key="1234567890123456" />
+	<flow name="welcome-dudeFlow" doc:id="04c15173-965e-4e00-aed0-79661ddc067e" >
+		<http:listener doc:name="Listener" doc:id="a30f64ed-71d2-4657-9a89-f961d98b7476" config-ref="HTTP_Listener_config" path="/demo"/>
+		<logger level="INFO" doc:name="Start Logger" doc:id="2c27d05c-1264-415d-a335-9268980c8469" message="#[p('secure::http.host')]"/>
+		<ee:transform doc:name="Transform Message" doc:id="1147c2d7-91d0-4af1-af95-cc7a793607cc" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"Message":"Hello Dude",
+	"Secret": p('secure::http.host')
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

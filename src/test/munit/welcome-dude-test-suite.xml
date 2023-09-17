@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="welcome-dude-test-suite.xml" />
+	<munit:test name="welcome-dude-test-suite-welcome-dudeFlowTest" doc:id="d53dd204-afcd-4052-8091-6e386c6eed74" description="Test">
+		<munit:behavior >
+			<munit-tools:spy doc:name="Spy" doc:id="ed7f974d-45b3-4c88-9ad3-14582547d849" />
+			<munit-tools:mock-when doc:name="Mock when" doc:id="eeb32ad0-7c3f-4e0b-93c3-9739a60b89eb" />
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to welcome-dudeFlow" doc:id="1d43a457-6e62-4df2-9fe1-0c349997e9db" name="welcome-dudeFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="3e4cc17f-b80d-4394-829f-f0ff0f4e822f" is="#[MunitTools::notNullValue()]"/>
+			<munit-tools:verify-call doc:name="Verify call" doc:id="1a1ddc13-574a-425b-9d00-7a24949f22a2" />
+		</munit:validation>
+	</munit:test>
+
+
+</mule>
